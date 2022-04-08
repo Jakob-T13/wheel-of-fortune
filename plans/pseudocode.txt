@@ -1,0 +1,68 @@
+spin wheel(wheel_list):
+	choose random entry from wheel list
+	return the value of the entry
+
+establish 3 players (ask for names?)
+- store in two dictionaries: {name : round score} and {name : bank}
+
+#round 1
+introduce first puzzle
+
+currentplayer = 1
+while puzzle not solved:
+	display puzzle and available letters
+	prompt player to spin wheel
+	if not bankrupt or lose turn:
+		guess a letter
+		remove letter from available letters
+		if letter in puzzle_string:
+			reveal letters in puzzle
+			add (spin result * number of revealed letters) to current player's score
+			while not spinning again:
+				ask to spin, buy vowel (if score > 250), or solve
+				if buy vowel:
+					subtract 250 from current player's score
+					remove letter from available letters
+					if letter in puzzle_string:
+						reveal letters in puzzle
+					else:
+						go to next player
+				elif solve:
+					player types in puzzle answer
+					if correct:
+						reveal all letters
+						bank current player's score
+						go to next round
+					else:
+						go to next player
+				elif spin:
+					repeat from "prompt player to spin wheel"
+				else:
+					bad input, try again
+		else:
+			tell player that letter wasn't in the puzzle
+			move on to next player
+	elif bankrupt:
+		current player's score = 0
+		move on to next player
+	else:
+		move on to next player
+	currentplayer += 1
+	if currentplayer > 3:
+		currentplayer -= 3
+		
+#round 2 - same as round 1, might just copy-paste
+
+#round 3
+get player with highest bank
+show puzzle with RSTLNE revealed
+prompt for 3 consonants and a vowel; allow retry if invalid entry
+show puzzle with player's letters revealed
+ask for player's singular guess
+reveal full puzzle
+if correct:
+	tell player they got it
+	bank += 25000
+else:
+	tell player they didn't get it
+"playername won $bank!"

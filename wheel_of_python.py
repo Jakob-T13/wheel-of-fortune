@@ -73,7 +73,8 @@ def main():
     puzzle_not_solved = True
     while puzzle_not_solved:
         print(''.join(puzz_display))
-        print(''.join(rem_letters))
+        print(''.join(rem_cons))
+        print(''.join(rem_vows))
         input(f"Press Enter to spin the wheel, {players[currentplayer-1]}!")
         spin_result = spin_wheel(play_wheel)
         print(spin_result)
@@ -82,6 +83,7 @@ def main():
             while letterselect:
                 ui = input("Choose a consonant: ").upper()
                 if len(ui) == 1 and ui in rem_cons:
+                    rem_cons[rem_cons.index(ui)] = '_'
                     letterselect = False
                 else:
                     print("That isn't a valid letter. Try again.")
@@ -90,6 +92,34 @@ def main():
                     if cur_puzz[i] == ui:
                         playerscores[players[currentplayer-1]] += spin_result
                         puzz_display[i] = ui
-                        
+                main_turn = True
+                while main_turn:
+                    print(''.join(puzz_display))
+                    print(''.join(rem_cons))
+                    print(''.join(rem_vows))
+                    print(f"{players[currentplayer-1]}: ${playerscores[players[currentplayer-1]]}")
+                    ui = input("Would you like to (s)pin again, (b)uy a vowel, or s(o)lve the puzzle? ")
+                    if ui == "s":
+                        main_turn = False
+                    elif ui == "b":
+                        if playerscores[players[currentplayer-1]] >= 250:
+                            playerscores[players[currentplayer-1]] -= 250
+                            vowel_choice = True
+                            while vowel_choice:
+                                ui = input("Choose a vowel: ")
+                                if ui in rem_vows:
+                                    rem_vows[rem_vows.index(ui)] = '_'
+                                    vowel_choice = False
+                                else:
+                                    print("That isn't a valid letter. Try again.")
+                            if ui in cur_puzz:
+                                for i in range(len(puzz_display)):
+                                    if cur_puzz[i] == ui:
+                                        puzz_display[i] = ui
+                            else:
+                                print("Sorry, that letter isn't in the puzzle.")
+                                main_turn = False
+                        else:
+                            print("Sorry, you don't have enough to buy a vowel.")
     
 main()

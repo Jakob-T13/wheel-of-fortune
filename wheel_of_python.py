@@ -65,7 +65,8 @@ def main():
     
     cur_puzz = random.choice(puzzles_list)
     puzz_display = txt_to_displaylist(cur_puzz)
-    rem_letters = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    rem_cons = list("BCDFGHJKLMNPQRSTVWXYZ")
+    rem_vows = list("AEIOU")
     currentplayer = 1
     
     #round 1
@@ -77,6 +78,18 @@ def main():
         spin_result = spin_wheel(play_wheel)
         print(spin_result)
         if spin_result != "BANKRUPT" and spin_result != "LOSE A TURN":
-            
+            letterselect = True
+            while letterselect:
+                ui = input("Choose a consonant: ").upper()
+                if len(ui) == 1 and ui in rem_cons:
+                    letterselect = False
+                else:
+                    print("That isn't a valid letter. Try again.")
+            if ui in cur_puzz:
+                for i in range(len(puzz_display)):
+                    if cur_puzz[i] == ui:
+                        playerscores[players[currentplayer-1]] += spin_result
+                        puzz_display[i] = ui
+                        
     
 main()

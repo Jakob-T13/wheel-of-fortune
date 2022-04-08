@@ -23,10 +23,20 @@ def generate_puzz_list():
     puzzf.close
     for i in range(len(puzz_list)):
         puzz_list[i] = puzz_list[i].strip()
+        puzz_list[i] = puzz_list[i].upper()
     return puzz_list
     
 def spin_wheel(wheel):
     return random.choice(wheel)
+    
+def txt_to_displaylist(stringin):
+    out = []
+    for i in stringin:
+        if i == ' ':
+            out += ' '
+        else:
+            out += '_'
+    return out
 
 def main():
     print("Welcome to Wheel of Python!")
@@ -34,6 +44,8 @@ def main():
     p1name = input("Player 1's name: ")
     p2name = input("Player 2's name: ")
     p3name = input("Player 3's name: ")
+    
+    players = [p1name, p2name, p3name]
     
     playerscores = {
         p1name : 0,
@@ -52,5 +64,19 @@ def main():
     puzzles_list = generate_puzz_list()
     
     cur_puzz = random.choice(puzzles_list)
+    puzz_display = txt_to_displaylist(cur_puzz)
+    rem_letters = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    currentplayer = 1
+    
+    #round 1
+    puzzle_not_solved = True
+    while puzzle_not_solved:
+        print(''.join(puzz_display))
+        print(''.join(rem_letters))
+        input(f"Press Enter to spin the wheel, {players[currentplayer-1]}!")
+        spin_result = spin_wheel(play_wheel)
+        print(spin_result)
+        if spin_result != "BANKRUPT" and spin_result != "LOSE A TURN":
+            
     
 main()

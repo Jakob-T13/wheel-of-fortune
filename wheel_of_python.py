@@ -63,7 +63,8 @@ def main():
     
     puzzles_list = generate_puzz_list()
     
-    cur_puzz = random.choice(puzzles_list)
+    cur_puzz = random.choice(puzzles_list).upper()
+    puzzles_list.pop(index(cur_puzz.title()))
     puzz_display = txt_to_displaylist(cur_puzz)
     rem_cons = list("BCDFGHJKLMNPQRSTVWXYZ")
     rem_vows = list("AEIOU")
@@ -90,7 +91,7 @@ def main():
             if ui in cur_puzz:
                 for i in range(len(puzz_display)):
                     if cur_puzz[i] == ui:
-                        playerscores[players[currentplayer-1]] += spin_result
+                        playerscores[players[currentplayer-1]] += int(spin_result)
                         puzz_display[i] = ui
                 main_turn = True
                 while main_turn:
@@ -98,7 +99,7 @@ def main():
                     print(''.join(rem_cons))
                     print(''.join(rem_vows))
                     print(f"{players[currentplayer-1]}: ${playerscores[players[currentplayer-1]]}")
-                    ui = input("Would you like to (s)pin again, (b)uy a vowel, or s(o)lve the puzzle? ")
+                    ui = input("Would you like to (s)pin again, (b)uy a vowel, or s(o)lve the puzzle? ").lower()
                     if ui == "s":
                         main_turn = False
                     elif ui == "b":
@@ -106,7 +107,7 @@ def main():
                             playerscores[players[currentplayer-1]] -= 250
                             vowel_choice = True
                             while vowel_choice:
-                                ui = input("Choose a vowel: ")
+                                ui = input("Choose a vowel: ").upper()
                                 if ui in rem_vows:
                                     rem_vows[rem_vows.index(ui)] = '_'
                                     vowel_choice = False
@@ -119,7 +120,39 @@ def main():
                             else:
                                 print("Sorry, that letter isn't in the puzzle.")
                                 main_turn = False
+                                currentplayer += 1
+                                if currentplayer > 3:
+                                    currentplayer -= 3
                         else:
                             print("Sorry, you don't have enough to buy a vowel.")
+                    elif ui == "o":
+                        guess = input("Enter your guess: ").upper()
+                        if guess == cur_puzz:
+                            main_turn = False
+                            puzzle_not_solved = False
+                        else:
+                            print("Sorry, that isn't the correct answer.")
+                            main_turn = False
+                            currentplayer += 1
+                            if currentplayer > 3:
+                                currentplayer -= 3
+                    else:
+                        print("Sorry, we didn't catch that. Please try again.")
+            else:
+                print("Sorry, that letter isn't in the puzzle.")
+                currentplayer += 1
+                if currentplayer > 3:
+                    currentplayer -= 3
+        elif spin_result == "BANKRUPT":
+            print(f"Oh no! {players[currentplayer-1]} has gone bankrupt!")
+            playerscores[players[currentplayer-1]] = 0
+            currentplayer += 1
+            if currentplayer > 3:
+                currentplayer -= 3
+        else:
+            print(f"{players[currentplayer-1]} has lost their turn!")
+            currentplayer += 1
+            if currentplayer > 3:
+                currentplayer -= 3
     
 main()

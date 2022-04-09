@@ -39,6 +39,10 @@ def txt_to_displaylist(stringin):
     return out
 
 def main():
+    titlef = open("title.txt", "rt")
+    titletext = titlef.read()
+    titlef.close()
+    print(titletext)
     print("Welcome to Wheel of Python!")
     print("To begin, please enter the names of the players:")
     p1name = input("Player 1's name: ")
@@ -284,4 +288,40 @@ def main():
             if cur_puzz[j] == i:
                 puzz_display[j] = i
     
+    print('\n'+''.join(puzz_display)+'\n')
+    print(''.join(rem_cons))
+    print(''.join(rem_vows)+'\n')
+    letterselect = True
+    for i in range(3):
+        letterselect = True
+        while letterselect:
+            ui = input(f"Choose consonant #{i+1}: ").upper()
+            if len(ui) == 1 and ui in rem_cons:
+                player_letters += ui
+                rem_cons[rem_cons.index(ui)] = '_'
+                letterselect = False
+            else:
+                print("That isn't a valid letter. Please try again.")
+    vowel_choice = True
+    while vowel_choice:
+        ui = input("Choose a vowel: ").upper()
+        if len(ui) == 1 and ui in rem_vows:
+            player_letters += ui
+            vowel_choice = False
+        else:
+            print("That isn't a valid letter. Please try again.")
+    for i in player_letters:
+        for j in range(len(puzz_display)):
+            if cur_puzz[j] == i:
+                puzz_display[j] = i
+    
+    print('\n'+''.join(puzz_display)+'\n')
+    ui = input(f"{winner}, you have one guess to solve this puzzle. What is your guess? ").upper()
+    if ui == cur_puzz:
+        print("Congratulations, you got it right!")
+        highscore += 25000
+    else:
+        print("Sorry, but that's not correct. The correct answer was:")
+        print(cur_puzz)
+    print(f"{winner} won a total of ${highscore}!\nThanks for playing!")
 main()

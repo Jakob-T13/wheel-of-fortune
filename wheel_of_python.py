@@ -132,7 +132,7 @@ def main():
                     elif ui == "o":     #solve puzzle
                         guess = input("Enter your guess: ").upper()     #ask for guess
                         if guess == cur_puzz:       #if the guess is correct
-                            playerbanks[players[currentplayer-1]] = playerscores[players[currentplayer-1]]  #bank the player's score
+                            playerbanks[players[currentplayer-1]] += playerscores[players[currentplayer-1]]  #bank the player's score
                             main_turn = False       #end the turn
                             puzzle_not_solved = False   #end the round
                         else:   #if guess is not correct
@@ -231,7 +231,7 @@ def main():
                     elif ui == "o":
                         guess = input("Enter your guess: ").upper()
                         if guess == cur_puzz:
-                            playerbanks[players[currentplayer-1]] = playerscores[players[currentplayer-1]]
+                            playerbanks[players[currentplayer-1]] += playerscores[players[currentplayer-1]]
                             main_turn = False
                             puzzle_not_solved = False
                         else:
@@ -258,11 +258,6 @@ def main():
             currentplayer += 1
             if currentplayer > 3:
                 currentplayer -= 3
-    print(f"Congratulations {players[currentplayer-1]} for winning the round! The current standings are:")
-    for i in range(3):
-        print(f"{players[i]}: ${playerbanks[players[i]]}")
-    for i in range(3):
-        playerscores[players[i]] = 0
         
     print(f"Congratulations {players[currentplayer-1]} for winning the round! The current standings are:")
     for i in range(3):

@@ -64,7 +64,7 @@ def main():
     puzzles_list = generate_puzz_list()
     
     cur_puzz = random.choice(puzzles_list).upper()
-    puzzles_list.pop(index(cur_puzz.title()))
+    # puzzles_list.pop(puzzles_list.index(cur_puzz.title()))
     puzz_display = txt_to_displaylist(cur_puzz)
     rem_cons = list("BCDFGHJKLMNPQRSTVWXYZ")
     rem_vows = list("AEIOU")
@@ -73,9 +73,9 @@ def main():
     #round 1
     puzzle_not_solved = True
     while puzzle_not_solved:
-        print(''.join(puzz_display))
+        print('\n'+''.join(puzz_display)+'\n')
         print(''.join(rem_cons))
-        print(''.join(rem_vows))
+        print(''.join(rem_vows)+'\n')
         input(f"Press Enter to spin the wheel, {players[currentplayer-1]}!")
         spin_result = spin_wheel(play_wheel)
         print(spin_result)
